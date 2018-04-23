@@ -33,5 +33,6 @@ C:\Users\Youri\Documents\ICT\Radius\Projecten\Periode 7\listviews_lazyloading\La
 C:\Users\Youri\Documents\ICT\Radius\Projecten\Periode 7\listviews_lazyloading\LazyLoading\LazyLoading\obj\Debug\linksrc\LazyLoading.dll.mdb
 C:\Users\Youri\Documents\ICT\Radius\Projecten\Periode 7\listviews_lazyloading\LazyLoading\LazyLoading\bin\Debug\LazyLoading.dll.mdb
 C:\Users\Youri\Documents\ICT\Radius\Projecten\Periode 7\listviews_lazyloading\LazyLoading\LazyLoading\obj\Debug\android\assets\LazyLoading.dll.mdb
+C:\Users\Youri\Documents\ICT\Radius\Projecten\Periode 7\listviews_lazyloading\LazyLoading\LazyLoading\obj\Debug\LazyLoading.csprojResolveAssemblyReference.cache
 C:\Users\Youri\Documents\ICT\Radius\Projecten\Periode 7\listviews_lazyloading\LazyLoading\LazyLoading\bin\Debug\LazyLoading.dll
 C:\Users\Youri\Documents\ICT\Radius\Projecten\Periode 7\listviews_lazyloading\LazyLoading\LazyLoading\obj\Debug\linksrc\LazyLoading.dll.mdb
