@@ -56,15 +56,16 @@ namespace LazyLoading
         
         int addedTimes = 0;
         int maxPerLoad = 30;
-        List<TextView> firstTexts;
+        List<string> history = new List<string>();
 
     protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
+            history.AddRange(countryList);
+
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
-            firstTexts = new List<TextView>();
             LinearLayout LazyLoadingContainer = FindViewById<LinearLayout>(Resource.Id.LazyloadingContainer);
             ScrollView LazyScroller = new ScrollView(this);
             LinearLayout ScrollContainer = new LinearLayout(this);
@@ -94,49 +95,86 @@ namespace LazyLoading
 
         private void OnScroll(object sender, View.ScrollChangeEventArgs e)
         {
-            ScrollView scroll = (ScrollView)sender;
-            double scrollSpace = scroll.Height;
-
-
-            LinearLayout itemContainter = (LinearLayout)scroll.GetChildAt(0);
-            View last = itemContainter.GetChildAt(itemContainter.ChildCount - 1);
-            int lbottom = last.Bottom + scroll.PaddingBottom;
-            int lsy = scroll.ScrollY;
-            int lsh = scroll.Height;
-            int deltaLast = lbottom - (lsy + lsh);
-
-            View first = itemContainter.GetChildAt(0);
-            int fbottom = last.Bottom + scroll.PaddingBottom;
-            int fsy = scroll.ScrollY;
-            int fsh = scroll.Height;
-            int deltaFirst = fbottom - (fsy + fsh);
-
-            if (e.ScrollY >= (deltaLast * 3) - 20)
+            try
             {
-                int startoffset = (addedTimes * maxPerLoad);
-                int endoffset = ((addedTimes + 1) * maxPerLoad);
-                for (int i = startoffset; i < endoffset; i++)
-                {
-                    try
-                    {
-                        TextView text = new TextView(this);
-                        text.SetText(countryList[i], TextView.BufferType.Normal);
-
-                        itemContainter.AddView(text);
-
-                        firstTexts.Add((TextView)itemContainter.GetChildAt(0));
-                        itemContainter.RemoveViewAt(0);
-                        
-                    }
-                    catch { }
-                }
-                scroll.SmoothScrollTo(0, 20);
-                addedTimes += 1;
-            }
-            else if(e.ScrollY <= deltaFirst)
-            {
+                ScrollView scroll = (ScrollView)sender;
+                LinearLayout itemContainter = (LinearLayout)scroll.GetChildAt(0);
                 
+
+                if (scroll.ScrollY >= scroll.GetChildAt(0).Height - scroll.Height)
+                {
+                    if(addedTimes >= 1)
+                    {
+                        int startoffset = (addedTimes * maxPerLoad);
+                        int endoffset = ((addedTimes + 1) * maxPerLoad);
+                        if (!(startoffset > countryList.Length) && !(endoffset > countryList.Length) && startoffset < endoffset)
+                        {
+                            itemContainter.RemoveAllViewsInLayout();
+                            for (int i = startoffset; i < endoffset; i++)
+                            {
+                                TextView text = new TextView(this);
+                                text.SetText(countryList[i], TextView.BufferType.Normal);
+                                itemContainter.AddView(text);
+                            }
+                            scroll.SmoothScrollTo(0, 5);
+                            addedTimes += 1;
+                        }
+                    }
+                }
+                else if (scroll.ScrollY <= 0)
+                {
+                    if (addedTimes > 1)
+                    {
+                        int startoffset = ((addedTimes - 1) * maxPerLoad);
+                        int endoffset = (addedTimes * maxPerLoad);
+                        if (!(startoffset > countryList.Length) && !(endoffset > countryList.Length) && startoffset < endoffset)
+                        {
+                            itemContainter.RemoveAllViewsInLayout();
+                            for (int i = startoffset; i < endoffset; i++)
+                            {
+                                TextView text = new TextView(this);
+                                text.SetText(countryList[i], TextView.BufferType.Normal);
+                                itemContainter.AddView(text);
+                            }
+                            scroll.SmoothScrollTo(0, scroll.GetChildAt(0).Height - scroll.Height - 5);
+                            addedTimes -= 1;
+                        }
+                    }
+                    else
+                    {
+                        int startoffset = ((addedTimes - 1) * maxPerLoad);
+                        int endoffset = (addedTimes * maxPerLoad);
+                        if (!(startoffset > countryList.Length) && !(endoffset > countryList.Length) && startoffset < endoffset)
+                        {
+                            itemContainter.RemoveAllViewsInLayout();
+                            for (int i = startoffset; i < endoffset; i++)
+                            {
+                                TextView text = new TextView(this);
+                                text.SetText(countryList[i], TextView.BufferType.Normal);
+                                itemContainter.AddView(text);
+                            }
+                            addedTimes = 1;
+                        }
+                    }
+                }
             }
+            catch { }
+
+
+            //View first = itemContainter.GetChildAt(0);
+            //int fbottom = last.Bottom + scroll.PaddingBottom;
+            //int fsy = scroll.ScrollY;
+            //int fsh = scroll.Height;
+            //int deltaFirst = fbottom - (fsy + fsh);
+
+            //if (e.ScrollY >= (deltaLast * 3) - 20)
+            //{
+            //    
+            //}
+            //else if(e.ScrollY <= deltaFirst)
+            //{
+
+            //}
         }
 
     }
